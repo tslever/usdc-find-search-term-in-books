@@ -17,17 +17,197 @@
  * @param {string} searchTerm - The word or term we're searching for. 
  * @param {JSON} scannedTextObj - A JSON object representing the scanned text.
  * @returns {JSON} - Search results.
- * */ 
- function findSearchTermInBooks(searchTerm, scannedTextObj) {
-    /** You will need to implement your search and 
-     * return the appropriate object here. */
+ */ 
+function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
-    var result = {
-        "SearchTerm": "",
-        "Results": []
+    /**
+     * @typedef {Object} Line
+     * @property {number} Page - Number of the page with this line in a book
+     * @property {number} Line - Number of this line on the page with this line
+     * @property {string} Text - Text of this line
+     */
+
+    /**
+     * @typedef {Object} Book
+     * @property {string} Title - Title of this book
+     * @property {string} ISBN - ISBN of this book
+     * @property {Line[]} Content - Array of lines in this book
+    */
+
+    /**
+     * @typedef {Object} SearchResult
+     * @property {string} ISBN - ISBN of a book
+     * @property {number} Page - Number of the page with the line indicated by number Line
+     * @property {number} Line - Number of a line with text containing the word searchTerm or the beginning of the word searchTerm. A word may be split by a hypen across two lines.
+     */
+
+    /**
+     * @typedef {Object} Result
+     * @property {string} SearchTerm - word searchTerm
+     * @property {SearchResult[]} - array of search results arrayOfSearchResults
+     */
+
+    /** @type {SearchResult[]} */
+    const arrayOfSearchResults = [];
+
+    for (let i = 0; i < scannedTextObj.length; i++) {
+
+        /** @type {Book} */
+        const book = scannedTextObj[i];
+
+        /** @type {string} */
+        const isbn = book.ISBN;
+
+        /** @type {Line[]} */
+        const arrayOfLines = book.Content;
+        
+        /** @type {number} */
+        const numberOfLines = arrayOfLines.length;
+
+        for (let j = 0; j < numberOfLines; j++) {
+
+            /** @type {Line} */
+            const lineJ = arrayOfLines[j];
+
+            /** @type {string} */
+            const textOfLineJ = lineJ.Text;
+
+            if (textOfLineJ.includes(searchTerm)) {
+
+                /** @type {SearchResult} */
+                const searchResult = {
+                    "ISBN": isbn,
+                    "Page": lineJ.Page,
+                    "Line": lineJ.Line
+                }
+
+                arrayOfSearchResults.push(searchResult);
+
+            } else if (textOfLineJ.endsWith("-")) {
+
+                /** @type {string[]} */
+                const arrayOfTokensOfLineJ = textOfLineJ.split(" ");
+
+                /** @type {string} */
+                const lastToken = arrayOfTokensOfLineJ[arrayOfTokensOfLineJ.length - 1];
+
+                /** @type {string} */
+                const lastTokenMinusHyphen = lastToken.slice(0, -1);
+
+                if (j === numberOfLines - 1) {
+
+                    if (searchTerm.includes("-")) {
+
+                        if (searchTerm.startsWith(lastToken)) {
+
+                            /** @type {SearchResult} */
+                            const searchResult = {
+                                "ISBN": isbn,
+                                "Page": lineJ.Page,
+                                "Line": lineJ.Line
+                            }
+
+                            arrayOfSearchResults.push(searchResult);
+
+                            console.log(
+                                "Search term starts with last token of content of book.\n" +
+                                "Array of search results includes the last line of content even though search term was not found in last line."
+                            );
+
+                        }
+
+                    } else {
+
+                        if (searchTerm.startsWith(lastTokenMinusHyphen)) {
+
+                            /** @type {SearchResult} */
+                            const searchResult = {
+                                "ISBN": isbn,
+                                "Page": lineJ.Page,
+                                "Line": lineJ.Line
+                            }
+
+                            arrayOfSearchResults.push(searchResult);
+
+                            console.log(
+                                "Search term starts with last token, minus hyphen, of content of book.\n" +
+                                "Array of search results includes the last line of content even though search term was not found in last line."
+                            );
+
+                        }
+
+                    }
+
+                } else {
+
+                    /** @type {Line} */
+                    const lineJPlus1 = arrayOfLines[j + 1];
+
+                    /** @type {string} */
+                    const textOfLineJPlus1 = lineJPlus1.Text;
+
+                    /** @type {string[]} */
+                    const arrayOfTokens = textOfLineJPlus1.split(" ");
+
+                    /** @type {string} */
+                    const firstToken = arrayOfTokens[0];
+
+                    if (searchTerm.includes("-")) {
+
+                        /** @type {string} */
+                        const lastTokenPlusFirstToken = lastToken + firstToken;
+
+                        if (searchTerm === lastTokenPlusFirstToken) {
+
+                            /** @type {SearchResult} */
+                            const searchResult = {
+                                "ISBN": isbn,
+                                "Page": lineJ.Page,
+                                "Line": lineJ.Line
+                            }
+
+                            arrayOfSearchResults.push(searchResult);
+
+                        }
+
+                    } else {
+
+                        /** @type {string} */
+                        const lastTokenMinusHyphenPlusFirstToken = lastTokenMinusHyphen + firstToken;
+
+                        if (searchTerm === lastTokenMinusHyphenPlusFirstToken) {
+
+                            /** @type {SearchResult} */
+                            const searchResult = {
+                                "ISBN": isbn,
+                                "Page": lineJ.Page,
+                                "Line": lineJ.Line
+                            }
+
+                            arrayOfSearchResults.push(searchResult);
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /**
+     * @type {Result}
+     */
+    const result = {
+        "SearchTerm": searchTerm,
+        "Results": arrayOfSearchResults
     };
-    
-    return result; 
+
+    return result;
+
 }
 
 /** Example input object. */
