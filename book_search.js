@@ -86,7 +86,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
             } else if (textOfLineJ.endsWith("-")) {
 
                 /** @type {string[]} */
-                const arrayOfTokensOfLineJ = textOfLineJ.split(" ");
+                const arrayOfTokensOfLineJ = textOfLineJ.split(/\s+/);
 
                 /** @type {string} */
                 const lastToken = arrayOfTokensOfLineJ[arrayOfTokensOfLineJ.length - 1];
@@ -147,7 +147,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                     const textOfLineJPlus1 = lineJPlus1.Text;
 
                     /** @type {string[]} */
-                    const arrayOfTokens = textOfLineJPlus1.split(" ");
+                    const arrayOfTokens = textOfLineJPlus1.split(/\s+/);
 
                     /** @type {string} */
                     const firstToken = arrayOfTokens[0];
