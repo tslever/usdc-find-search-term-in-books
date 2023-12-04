@@ -86,7 +86,9 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
             } else if (textOfLineJ.endsWith("-")) {
 
                 /** @type {string[]} */
-                const arrayOfTokensOfLineJ = textOfLineJ.split(/[^a-zA-Z']+/);
+                const arrayOfTokensOfLineJ = textOfLineJ.split(/[^a-zA-Z'-]+/);
+
+                console.log(arrayOfTokensOfLineJ);
 
                 /** @type {string} */
                 const lastToken = arrayOfTokensOfLineJ[arrayOfTokensOfLineJ.length - 1];
@@ -147,7 +149,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                     const textOfLineJPlus1 = lineJPlus1.Text;
 
                     /** @type {string[]} */
-                    const arrayOfTokens = textOfLineJPlus1.split(/[^a-zA-Z']+/);
+                    const arrayOfTokens = textOfLineJPlus1.split(/[^a-zA-Z'-]+/);
 
                     /** @type {string} */
                     const firstToken = arrayOfTokens[0];
@@ -233,7 +235,7 @@ const twentyLeaguesIn = [
             } 
         ] 
     }
-]
+];
     
 /** Example output object */
 const twentyLeaguesOut = {
@@ -245,7 +247,18 @@ const twentyLeaguesOut = {
             "Line": 9
         }
     ]
-}
+};
+
+const outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea = {
+    "SearchTerm": "darkness",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+};
 
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
@@ -281,4 +294,13 @@ if (test2result.Results.length == 1) {
     console.log("FAIL: Test 2");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
+}
+
+const test3result = findSearchTermInBooks("darkness", twentyLeaguesIn);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea) === JSON.stringify(test3result)) {
+    console.log("PASS: Test 3");
+} else {
+    console.log("FAIL: Test 3");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea);
+    console.log("Received:", test3result);
 }
