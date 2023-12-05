@@ -88,8 +88,6 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                 /** @type {string[]} */
                 const arrayOfTokensOfLineJ = textOfLineJ.split(/[^a-zA-Z'-]+/);
 
-                console.log(arrayOfTokensOfLineJ);
-
                 /** @type {string} */
                 const lastToken = arrayOfTokensOfLineJ[arrayOfTokensOfLineJ.length - 1];
 
@@ -112,7 +110,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                             arrayOfSearchResults.push(searchResult);
 
                             console.log(
-                                "Search term starts with last token of content of book.\n" +
+                                "WARNING: Search term starts with last token of content of book.\n" +
                                 "Array of search results includes the last line of content even though search term was not found in last line."
                             );
 
@@ -132,7 +130,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                             arrayOfSearchResults.push(searchResult);
 
                             console.log(
-                                "Search term starts with last token, minus hyphen, of content of book.\n" +
+                                "WARNING: Search term starts with last token, minus hyphen, of content of book.\n" +
                                 "Array of search results includes the last line of content even though search term was not found in last line."
                             );
 
@@ -212,7 +210,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
 }
 
-/** Example input object. */
+/** Input object for tests 1, 2, 3, 5, and 8 */
 const twentyLeaguesIn = [
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
@@ -236,7 +234,46 @@ const twentyLeaguesIn = [
         ] 
     }
 ];
-    
+
+const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
+    {
+        "Title": "Twenty Thousand Leagues Under the Sea",
+        "ISBN": "9780000528531",
+        "Content": [
+            {
+                "Page": 31,
+                "Line": 8,
+                "Text": "now simply went on by her own momentum.  The dark-"
+            }
+        ] 
+    }
+];
+
+/** Example input object. */
+const arrayOfExcerptsFromBooksWithWordDarkHaired = [
+    {
+        "Title": "Example Book",
+        "ISBN": "0123456789123",
+        "Content": [
+            {
+                "Page": 0,
+                "Line": 1,
+                "Text": "now simply went on by her own momentum.  The dark-"
+            },
+            {
+                "Page": 0,
+                "Line": 2,
+                "Text": "haired woman was beautiful; and however good the Canadian\'s"
+            },
+            {
+                "Page": 0,
+                "Line": 3,
+                "Text": "eyes were, I asked myself how he had managed to see, and"
+            } 
+        ] 
+    }
+];
+  
 /** Example output object */
 const twentyLeaguesOut = {
     "SearchTerm": "the",
@@ -249,13 +286,62 @@ const twentyLeaguesOut = {
     ]
 };
 
-const outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea = {
+const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn = {
     "SearchTerm": "darkness",
     "Results": [
         {
             "ISBN": "9780000528531",
             "Page": 31,
             "Line": 8
+        }
+    ]
+};
+
+const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
+    "SearchTerm": "darkness",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+};
+
+const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn = {
+    "SearchTerm": "dark-haired",
+    "Results": []
+};
+
+const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
+    "SearchTerm": "dark-haired",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+};
+
+const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired = {
+    "SearchTerm": "dark-haired",
+    "Results": [
+        {
+            "ISBN": "0123456789123",
+            "Page": 0,
+            "Line": 1
+        }
+    ]
+};
+
+const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
+    "SearchTerm": "Canadian's",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 9
         }
     ]
 };
@@ -277,30 +363,85 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWith
  * */
 
 /** We can check that, given a known input, we get a known output. */
+
+/* Test 1 */
 const test1result = findSearchTermInBooks("the", twentyLeaguesIn);
 if (JSON.stringify(twentyLeaguesOut) === JSON.stringify(test1result)) {
-    console.log("PASS: Test 1");
+    console.log("PASS: Test 1 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 1");
+    console.log("FAIL: Test 1 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", twentyLeaguesOut);
     console.log("Received:", test1result);
 }
 
 /** We could choose to check that we get the right number of results. */
+
+/* Test 2 */
 const test2result = findSearchTermInBooks("the", twentyLeaguesIn); 
 if (test2result.Results.length == 1) {
-    console.log("PASS: Test 2");
+    console.log("PASS: Test 2 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 2");
+    console.log("FAIL: Test 2 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
 
+/* Test 3 */
 const test3result = findSearchTermInBooks("darkness", twentyLeaguesIn);
-if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea) === JSON.stringify(test3result)) {
-    console.log("PASS: Test 3");
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn) === JSON.stringify(test3result)) {
+    console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 3");
-    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndScannedTextObjectWithBookTwentyThousandLeaguesUnderTheSea);
+    console.log("FAIL: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn);
     console.log("Received:", test3result);
+}
+
+/* Test 4 */
+const test4result = findSearchTermInBooks("darkness", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test4result)) {
+    console.log("PASS: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+} else {
+    console.log("FAIL: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
+    console.log("Received:", test4result);
+}
+
+/* Test 5 */
+const test5result = findSearchTermInBooks("dark-haired", twentyLeaguesIn);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn) === JSON.stringify(test5result)) {
+    console.log("PASS: Test 5 - Word 'dark-haired' is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+} else {
+    console.log("FAIL: Test 5 - Word 'dark-haired' is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn);
+    console.log("Received:", test5result);
+}
+
+/* Test 6 */
+const test6result = findSearchTermInBooks("dark-haired", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test6result)) {
+    console.log("PASS: Test 6 - Beginning of 'dark-haired' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+} else {
+    console.log("FAIL: Test 6 - Beginning of 'dark-haired' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
+    console.log("Received:", test6result);
+}
+
+/* Test 7 */
+const test7result = findSearchTermInBooks("dark-haired", arrayOfExcerptsFromBooksWithWordDarkHaired);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired) === JSON.stringify(test7result)) {
+    console.log("PASS: Test 7 - Word 'dark-haired' is found once on page 31, line 8 of excerpt of Example Book");
+} else {
+    console.log("FAIL: Test 7 - Word 'dark-haired' is found once on page 31, line 8 of excerpt of Example Book");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired);
+    console.log("Received:", test7result);
+}
+
+/* Test 8 */
+const test8result = findSearchTermInBooks("Canadian's", twentyLeaguesIn);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn) === JSON.stringify(test8result)) {
+    console.log("PASS: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+} else {
+    console.log("FAIL: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn);
+    console.log("Received:", test8result);
 }
