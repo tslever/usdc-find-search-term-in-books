@@ -257,6 +257,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 }
 
 /** Input object for tests 1, 2, 3, 5, and 8 */
+/** @type {ExcerptOfBook[]} */
 const twentyLeaguesIn = [
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
@@ -282,6 +283,7 @@ const twentyLeaguesIn = [
 ];
 
 /** Input object for tests 4 and 6 */
+/** @type {ExcerptOfBook[]} */
 const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
@@ -297,6 +299,7 @@ const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
 ];
 
 /** Input object for test 7 */
+/** @type {ExcerptOfBook[]} */
 const arrayOfExcerptsFromBooksWithWordDarkHaired = [
     {
         "Title": "Example Book",
@@ -322,6 +325,7 @@ const arrayOfExcerptsFromBooksWithWordDarkHaired = [
 ];
   
 /** Output object for tests 1 and 2 */
+/** @type {Result} */
 const twentyLeaguesOut = {
     "SearchTerm": "the",
     "Results": [
@@ -334,6 +338,7 @@ const twentyLeaguesOut = {
 };
 
 /** Output object for test 3 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn = {
     "SearchTerm": "dark-?ness",
     "Results": [
@@ -346,6 +351,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn 
 };
 
 /** Output object for test 4 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
     "SearchTerm": "dark-?ness",
     "Results": [
@@ -358,12 +364,14 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromT
 };
 
 /** Output object for test 5 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn = {
     "SearchTerm": "dark-haired",
     "Results": []
 };
 
 /** Output object for test 6 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
     "SearchTerm": "dark-haired",
     "Results": [
@@ -376,6 +384,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFro
 };
 
 /** Output object for test 7 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired = {
     "SearchTerm": "dark-haired",
     "Results": [
@@ -388,6 +397,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFrom
 };
 
 /** Output object for test 8 */
+/** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
     "SearchTerm": "Canadian's",
     "Results": [
@@ -418,6 +428,7 @@ const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
 /** We can check that, given a known input, we get a known output. */
 
 /* Test 1 */
+/** @type {Result} */
 const test1result = findSearchTermInBooks("the", twentyLeaguesIn);
 if (JSON.stringify(twentyLeaguesOut) === JSON.stringify(test1result)) {
     console.log("PASS: Test 1 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
@@ -430,6 +441,7 @@ if (JSON.stringify(twentyLeaguesOut) === JSON.stringify(test1result)) {
 /** We could choose to check that we get the right number of results. */
 
 /* Test 2 */
+/** @type {Result} */
 const test2result = findSearchTermInBooks("the", twentyLeaguesIn); 
 if (test2result.Results.length == 1) {
     console.log("PASS: Test 2 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
@@ -440,6 +452,7 @@ if (test2result.Results.length == 1) {
 }
 
 /* Test 3 */
+/** @type {Result} */
 const test3result = findSearchTermInBooks("dark-?ness", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn) === JSON.stringify(test3result)) {
     console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
@@ -450,6 +463,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwe
 }
 
 /* Test 4 */
+/** @type {Result} */
 const test4result = findSearchTermInBooks("dark-?ness", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test4result)) {
     console.log("PASS: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
@@ -460,6 +474,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWit
 }
 
 /* Test 5 */
+/** @type {Result} */
 const test5result = findSearchTermInBooks("dark-haired", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn) === JSON.stringify(test5result)) {
     console.log("PASS: Test 5 - Word 'dark-haired' is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
@@ -470,6 +485,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayT
 }
 
 /* Test 6 */
+/** @type {Result} */
 const test6result = findSearchTermInBooks("dark-haired", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test6result)) {
     console.log("PASS: Test 6 - Beginning of 'dark-haired' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
@@ -480,6 +496,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayW
 }
 
 /* Test 7 */
+/** @type {Result} */
 const test7result = findSearchTermInBooks("dark-haired", arrayOfExcerptsFromBooksWithWordDarkHaired);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired) === JSON.stringify(test7result)) {
     console.log("PASS: Test 7 - Word 'dark-haired' is found once on page 31, line 8 of excerpt of Example Book");
@@ -490,6 +507,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayO
 }
 
 /* Test 8 */
+/** @type {Result} */
 const test8result = findSearchTermInBooks("Canadian's", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn) === JSON.stringify(test8result)) {
     console.log("PASS: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
