@@ -179,7 +179,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
         if (excerptOfBook.hasOwnProperty('Content')) {
             
             arrayOfLines = excerptOfBook.Content;
-            
+
             numberOfLines = arrayOfLines.length;
 
         }
@@ -264,7 +264,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
 }
 
-/** Input object for tests 1, 2, 3, 5, and 8 */
+/** Input object for tests 1, 2, 3, 5, 8, and 11 */
 /** @type {ExcerptOfBook[]} */
 const twentyLeaguesIn = [
     {
@@ -444,6 +444,19 @@ const outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNo
     "Results": []
 }
 
+/** Output object for test 11 */
+/** @type {Result} */
+const outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn = {
+    "SearchTerm": "The",
+    "Results": [
+        {
+            "ISBN": "9780000528531",
+            "Page": 31,
+            "Line": 8
+        }
+    ]
+};
+
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
 | | | | \ | |_ _|_   _| |_   _| ____/ ___|_   _/ ___| 
@@ -572,4 +585,15 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerp
     console.log("FAIL: Test 10 - Word 'the' is not found in an excerpt of a book with no lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent);
     console.log("Received:", test10result);
+}
+
+/* Test 11 */
+/** @type {Result} */
+const test11result = findSearchTermInBooks("The", twentyLeaguesIn);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn) === JSON.stringify(test11result)) {
+    console.log("PASS: Test 11 - Word 'The' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+} else {
+    console.log("FAIL: Test 11 - Word 'The' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn);
+    console.log("Received:", test11result);
 }
