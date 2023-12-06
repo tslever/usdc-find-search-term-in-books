@@ -281,6 +281,7 @@ const twentyLeaguesIn = [
     }
 ];
 
+/** Input object for tests 4 and 6 */
 const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
     {
         "Title": "Twenty Thousand Leagues Under the Sea",
@@ -295,7 +296,7 @@ const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
     }
 ];
 
-/** Example input object. */
+/** Input object for test 7 */
 const arrayOfExcerptsFromBooksWithWordDarkHaired = [
     {
         "Title": "Example Book",
@@ -320,7 +321,7 @@ const arrayOfExcerptsFromBooksWithWordDarkHaired = [
     }
 ];
   
-/** Example output object */
+/** Output object for tests 1 and 2 */
 const twentyLeaguesOut = {
     "SearchTerm": "the",
     "Results": [
@@ -332,6 +333,7 @@ const twentyLeaguesOut = {
     ]
 };
 
+/** Output object for test 3 */
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn = {
     "SearchTerm": "dark-?ness",
     "Results": [
@@ -343,6 +345,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn 
     ]
 };
 
+/** Output object for test 4 */
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
     "SearchTerm": "dark-?ness",
     "Results": [
@@ -354,11 +357,13 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromT
     ]
 };
 
+/** Output object for test 5 */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn = {
     "SearchTerm": "dark-haired",
     "Results": []
 };
 
+/** Output object for test 6 */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
     "SearchTerm": "dark-haired",
     "Results": [
@@ -370,6 +375,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFro
     ]
 };
 
+/** Output object for test 7 */
 const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired = {
     "SearchTerm": "dark-haired",
     "Results": [
@@ -381,6 +387,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFrom
     ]
 };
 
+/** Output object for test 8 */
 const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
     "SearchTerm": "Canadian's",
     "Results": [
