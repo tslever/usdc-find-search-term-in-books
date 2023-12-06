@@ -13,53 +13,165 @@
  */
 
 /**
+ * @typedef {JSON} Line
+ * @property {number} Page - Number of the page with this line in a book
+ * @property {number} Line - Number of this line on the page with this line
+ * @property {string} Text - Text of this line
+ */
+
+/**
+ * @typedef {JSON} ExcerptOfBook
+ * @property {string} Title - Title of the book of this excerpt
+ * @property {number} ISBN - ISBN of the book of this excerpt
+ * @property {Line[]} Content - Array of lines in the book of this excerpt
+*/
+
+/**
+ * @typedef {JSON} SearchResult
+ * @property {number} ISBN - ISBN of a book
+ * @property {number} Page - Number of the page with the line indicated by
+ * number Line
+ * @property {number} Line - Number of a line with text containing the word
+ * searchTerm or the beginning of the word searchTerm. A word may be split by
+ * a hypen across two lines.
+ */
+
+/**
+ * @typedef {JSON} Result
+ * @property {string} SearchTerm - word searchTerm
+ * @property {SearchResult[]} - array of search results arrayOfSearchResults
+ */
+
+/**
+ * Adds a created search result to an array of search results
+ * @param {number} isbn - An ISBN
+ * @param {number} page - A number of a page
+ * @param {number} line - A number of a line
+ * @param {SearchResult[]} arrayOfSearchResults
+ * @returns {undefined}
+ */
+function addSearchResultToArrayOfSearchResults(isbn, page, line, arrayOfSearchResults) {
+
+    /** @type {SearchResult} */
+    const searchResult = {
+        "ISBN": isbn,
+        "Page": page,
+        "Line": line
+    }
+
+    arrayOfSearchResults.push(searchResult);
+
+}
+
+/**
+ * Creates array of indices of character in string
+ * @param {string} character - character whose indices are stored in an array
+ * @param {string} theString - string that is scanned for indices of a character
+ * @returns {number[]} arrayOfIndicesOfCharacterInString - array of indices of character in string
+ */
+function createArrayOfIndicesOfCharacterInString(character, theString) {
+
+    /** @type {number[]} */
+    const arrayOfIndicesOfCharacterInString = [];
+
+    /** @type {number} */
+    let indexOfCharacterInString = theString.indexOf(character);
+    
+    while (indexOfCharacterInString !== -1) {
+
+        arrayOfIndicesOfCharacterInString.push(indexOfCharacterInString);
+
+        indexOfCharacterInString = theString.indexOf("-", indexOfCharacterInString + 1);
+
+    }
+
+    return arrayOfIndicesOfCharacterInString;
+
+}
+
+
+/**
+ * Creates search term with optional syllables after the first syllable
+ * @param {string} searchTerm - search term
+ * @returns searchTermWithOptionalSyllables - search term with optional syllables
+ */
+function createSearchTermWithOptionalSyllables(searchTerm) {
+
+    /** @type {number[]} */
+    const arrayOfIndicesOfHyphenInSearchTerm = createArrayOfIndicesOfCharacterInString('-', searchTerm);
+    
+    /** @type {string[]} */
+    const arrayDerivedFromSearchTerm = searchTerm.split("");
+
+    for (let k = 0; k < arrayOfIndicesOfHyphenInSearchTerm.length; k++) {
+
+        indexOfHyphenInSearchTerm = arrayOfIndicesOfHyphenInSearchTerm[k];
+
+        /** @type {string} */
+        const stringWithTwoCharactersBeginningAtIndexOfHyphenInSearchTerm = searchTerm.substring(indexOfHyphenInSearchTerm, indexOfHyphenInSearchTerm + 2);
+
+        if (stringWithTwoCharactersBeginningAtIndexOfHyphenInSearchTerm === "-?") {
+
+            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm + 2, 0, "(");
+
+        } else {
+
+            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm + 1, 0, "(");
+
+        }
+
+        if (k < arrayOfIndicesOfHyphenInSearchTerm.length - 1) {
+
+            indexOfHyphenInSearchTerm = arrayOfIndicesOfHyphenInSearchTerm[k + 1];
+
+            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm, 0, ")?");
+
+        } else {
+
+            arrayDerivedFromSearchTerm.splice(arrayDerivedFromSearchTerm.length, 0, ")?");
+
+        }
+
+    }
+
+    /** @type {string} */
+    const searchTermWithOptionalSyllables = arrayDerivedFromSearchTerm.join("");
+
+    return searchTermWithOptionalSyllables;
+
+}
+
+/**
  * Searches for matches in scanned text.
- * @param {string} searchTerm - The word or term we're searching for. 
- * @param {JSON} scannedTextObj - A JSON object representing the scanned text.
- * @returns {JSON} - Search results.
+ * @param {string} searchTerm - The word or term we're searching for. A word
+ * contains one or more letters and contains either an optional / soft hyphen
+ * or a required hyphen after each syllable. A word may contain one or more
+ * non-adjacent apostrophes.
+ * @param {ExcerptOfBook[]} scannedTextObj - An array of excerpts of books
+ * @returns {Result} - A result containing search term searchTerm an an array
+ * of search results
  */ 
 function findSearchTermInBooks(searchTerm, scannedTextObj) {
-
-    /**
-     * @typedef {Object} Line
-     * @property {number} Page - Number of the page with this line in a book
-     * @property {number} Line - Number of this line on the page with this line
-     * @property {string} Text - Text of this line
-     */
-
-    /**
-     * @typedef {Object} Book
-     * @property {string} Title - Title of this book
-     * @property {string} ISBN - ISBN of this book
-     * @property {Line[]} Content - Array of lines in this book
-    */
-
-    /**
-     * @typedef {Object} SearchResult
-     * @property {string} ISBN - ISBN of a book
-     * @property {number} Page - Number of the page with the line indicated by number Line
-     * @property {number} Line - Number of a line with text containing the word searchTerm or the beginning of the word searchTerm. A word may be split by a hypen across two lines.
-     */
-
-    /**
-     * @typedef {Object} Result
-     * @property {string} SearchTerm - word searchTerm
-     * @property {SearchResult[]} - array of search results arrayOfSearchResults
-     */
 
     /** @type {SearchResult[]} */
     const arrayOfSearchResults = [];
 
-    for (let i = 0; i < scannedTextObj.length; i++) {
+    /** @type {RegExp} */
+    const regularExpressionDerivedFromSearchTerm = new RegExp(searchTerm);
 
-        /** @type {Book} */
-        const book = scannedTextObj[i];
+    /** @type {number} */
+    const numberOfExcerptsOfBooks = scannedTextObj.length;
 
-        /** @type {string} */
-        const isbn = book.ISBN;
+    for (let i = 0; i < numberOfExcerptsOfBooks; i++) {
+
+        /** @type {ExcerptOfBook} */
+        const excerptOfBook = scannedTextObj[i];
+
+        /** @type {number} */
+        const isbn = excerptOfBook.ISBN;
 
         /** @type {Line[]} */
-        const arrayOfLines = book.Content;
+        const arrayOfLines = excerptOfBook.Content;
         
         /** @type {number} */
         const numberOfLines = arrayOfLines.length;
@@ -72,69 +184,31 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
             /** @type {string} */
             const textOfLineJ = lineJ.Text;
 
-            if (textOfLineJ.includes(searchTerm)) {
+            if (regularExpressionDerivedFromSearchTerm.test(textOfLineJ)) {
 
-                /** @type {SearchResult} */
-                const searchResult = {
-                    "ISBN": isbn,
-                    "Page": lineJ.Page,
-                    "Line": lineJ.Line
-                }
-
-                arrayOfSearchResults.push(searchResult);
+                addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
             } else if (textOfLineJ.endsWith("-")) {
 
                 /** @type {string[]} */
                 const arrayOfTokensOfLineJ = textOfLineJ.split(/[^a-zA-Z'-]+/);
 
-                /** @type {string} */
-                const lastToken = arrayOfTokensOfLineJ[arrayOfTokensOfLineJ.length - 1];
+                /** @type {number} */
+                const numberOfTokensOfLineJ = arrayOfTokensOfLineJ.length;
 
                 /** @type {string} */
-                const lastTokenMinusHyphen = lastToken.slice(0, -1);
+                const lastTokenOfLineJ = arrayOfTokensOfLineJ[numberOfTokensOfLineJ - 1];
 
                 if (j === numberOfLines - 1) {
 
-                    if (searchTerm.includes("-")) {
+                    const searchTermWithOptionalSyllables = createSearchTermWithOptionalSyllables(searchTerm);
 
-                        if (searchTerm.startsWith(lastToken)) {
+                    /** @type {RegExp} */
+                    const regularExpressionDerivedFromSearchTermWithOptionalSyllables = new RegExp(searchTermWithOptionalSyllables);
 
-                            /** @type {SearchResult} */
-                            const searchResult = {
-                                "ISBN": isbn,
-                                "Page": lineJ.Page,
-                                "Line": lineJ.Line
-                            }
+                    if (regularExpressionDerivedFromSearchTermWithOptionalSyllables.test(lastTokenOfLineJ)) {
 
-                            arrayOfSearchResults.push(searchResult);
-
-                            console.log(
-                                "WARNING: Search term starts with last token of content of book.\n" +
-                                "Array of search results includes the last line of content even though search term was not found in last line."
-                            );
-
-                        }
-
-                    } else {
-
-                        if (searchTerm.startsWith(lastTokenMinusHyphen)) {
-
-                            /** @type {SearchResult} */
-                            const searchResult = {
-                                "ISBN": isbn,
-                                "Page": lineJ.Page,
-                                "Line": lineJ.Line
-                            }
-
-                            arrayOfSearchResults.push(searchResult);
-
-                            console.log(
-                                "WARNING: Search term starts with last token, minus hyphen, of content of book.\n" +
-                                "Array of search results includes the last line of content even though search term was not found in last line."
-                            );
-
-                        }
+                        addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
                     }
 
@@ -147,46 +221,17 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                     const textOfLineJPlus1 = lineJPlus1.Text;
 
                     /** @type {string[]} */
-                    const arrayOfTokens = textOfLineJPlus1.split(/[^a-zA-Z'-]+/);
+                    const arrayOfTokensOfLineJPlus1 = textOfLineJPlus1.split(/[^a-zA-Z'-]+/);
 
                     /** @type {string} */
-                    const firstToken = arrayOfTokens[0];
+                    const firstTokenOfLineJPlus1 = arrayOfTokensOfLineJPlus1[0];
 
-                    if (searchTerm.includes("-")) {
+                    /** @type {string} */
+                    const lastTokenOfLineJPlusFirstTokenOfLineJPlus1 = lastTokenOfLineJ + firstTokenOfLineJPlus1;
 
-                        /** @type {string} */
-                        const lastTokenPlusFirstToken = lastToken + firstToken;
+                    if (regularExpressionDerivedFromSearchTerm.test(lastTokenOfLineJPlusFirstTokenOfLineJPlus1)) {
 
-                        if (searchTerm === lastTokenPlusFirstToken) {
-
-                            /** @type {SearchResult} */
-                            const searchResult = {
-                                "ISBN": isbn,
-                                "Page": lineJ.Page,
-                                "Line": lineJ.Line
-                            }
-
-                            arrayOfSearchResults.push(searchResult);
-
-                        }
-
-                    } else {
-
-                        /** @type {string} */
-                        const lastTokenMinusHyphenPlusFirstToken = lastTokenMinusHyphen + firstToken;
-
-                        if (searchTerm === lastTokenMinusHyphenPlusFirstToken) {
-
-                            /** @type {SearchResult} */
-                            const searchResult = {
-                                "ISBN": isbn,
-                                "Page": lineJ.Page,
-                                "Line": lineJ.Line
-                            }
-
-                            arrayOfSearchResults.push(searchResult);
-
-                        }
+                        addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
                     }
 
@@ -287,7 +332,7 @@ const twentyLeaguesOut = {
 };
 
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn = {
-    "SearchTerm": "darkness",
+    "SearchTerm": "dark-?ness",
     "Results": [
         {
             "ISBN": "9780000528531",
@@ -298,7 +343,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn 
 };
 
 const outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = {
-    "SearchTerm": "darkness",
+    "SearchTerm": "dark-?ness",
     "Results": [
         {
             "ISBN": "9780000528531",
@@ -387,7 +432,7 @@ if (test2result.Results.length == 1) {
 }
 
 /* Test 3 */
-const test3result = findSearchTermInBooks("darkness", twentyLeaguesIn);
+const test3result = findSearchTermInBooks("dark-?ness", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn) === JSON.stringify(test3result)) {
     console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
@@ -397,7 +442,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwe
 }
 
 /* Test 4 */
-const test4result = findSearchTermInBooks("darkness", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
+const test4result = findSearchTermInBooks("dark-?ness", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test4result)) {
     console.log("PASS: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
 } else {
