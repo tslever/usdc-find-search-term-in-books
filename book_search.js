@@ -22,13 +22,13 @@
 /**
  * @typedef {JSON} ExcerptOfBook
  * @property {string} Title - Title of the book of this excerpt
- * @property {number} ISBN - ISBN of the book of this excerpt
+ * @property {string} ISBN - ISBN of the book of this excerpt
  * @property {Line[]} Content - Array of lines in the book of this excerpt
 */
 
 /**
  * @typedef {JSON} SearchResult
- * @property {number} ISBN - ISBN of a book
+ * @property {string} ISBN - ISBN of a book
  * @property {number} Page - Number of the page with the line indicated by
  * number Line
  * @property {number} Line - Number of a line with text containing the word
@@ -44,7 +44,7 @@
 
 /**
  * Adds a created search result to an array of search results
- * @param {number} isbn - An ISBN
+ * @param {string} isbn - An ISBN
  * @param {number} page - A number of a page
  * @param {number} line - A number of a line
  * @param {SearchResult[]} arrayOfSearchResults
