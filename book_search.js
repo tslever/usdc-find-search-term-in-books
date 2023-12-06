@@ -171,10 +171,18 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
         const isbn = excerptOfBook.ISBN;
 
         /** @type {Line[]} */
-        const arrayOfLines = excerptOfBook.Content;
-        
+        let arrayOfLines = null;
+
         /** @type {number} */
-        const numberOfLines = arrayOfLines.length;
+        let numberOfLines = 0;
+        
+        if (excerptOfBook.hasOwnProperty('Content')) {
+            
+            arrayOfLines = excerptOfBook.Content;
+            
+            numberOfLines = arrayOfLines.length;
+
+        }
 
         for (let j = 0; j < numberOfLines; j++) {
 
@@ -327,6 +335,15 @@ const arrayOfExcerptsFromBooksWithWordDarkHaired = [
 /** Input object for test 9 */
 /** @type {ExcerptOfBook[]} */
 const arrayOfZeroExcerptsFromBooks = []
+
+/** Input object for test 10 */
+/** @type {ExcerptOfBook[]} */
+const arrayOfExcerptFromBookWithNoContent = [
+    {
+        "Title": "Book With No Content",
+        "ISBN": "3219876543210"
+    }
+]
   
 /** Output object for tests 1 and 2 */
 /** @type {Result} */
@@ -416,6 +433,13 @@ const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
 /** Output object for test 9 */
 /** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks = {
+    "SearchTerm": "the",
+    "Results": []
+}
+
+/** Output object for test 10 */
+/** @type {Result} */
+const outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent = {
     "SearchTerm": "the",
     "Results": []
 }
@@ -537,4 +561,15 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroEx
     console.log("FAIL: Test 9 - Word 'the' is not found when there are no excerpts of books");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks);
     console.log("Received:", test9result);
+}
+
+/* Test 10 */
+/** @type {Result} */
+const test10result = findSearchTermInBooks("the", arrayOfExcerptFromBookWithNoContent);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent) === JSON.stringify(test10result)) {
+    console.log("PASS: Test 10 - Word 'the' is not found in an excerpt of a book with no lines");
+} else {
+    console.log("FAIL: Test 10 - Word 'the' is not found in an excerpt of a book with no lines");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent);
+    console.log("Received:", test10result);
 }
