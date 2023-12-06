@@ -323,6 +323,10 @@ const arrayOfExcerptsFromBooksWithWordDarkHaired = [
         ] 
     }
 ];
+
+/** Input object for test 9 */
+/** @type {ExcerptOfBook[]} */
+const arrayOfZeroExcerptsFromBooks = []
   
 /** Output object for tests 1 and 2 */
 /** @type {Result} */
@@ -408,6 +412,13 @@ const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
         }
     ]
 };
+
+/** Output object for test 9 */
+/** @type {Result} */
+const outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks = {
+    "SearchTerm": "the",
+    "Results": []
+}
 
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
@@ -515,4 +526,15 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyL
     console.log("FAIL: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn);
     console.log("Received:", test8result);
+}
+
+/* Test 9 */
+/** @type {Result} */
+const test9result = findSearchTermInBooks("the", arrayOfZeroExcerptsFromBooks);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks) === JSON.stringify(test9result)) {
+    console.log("PASS: Test 9 - Word 'the' is not found when there are no excerpts of books");
+} else {
+    console.log("FAIL: Test 9 - Word 'the' is not found when there are no excerpts of books");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks);
+    console.log("Received:", test9result);
 }
