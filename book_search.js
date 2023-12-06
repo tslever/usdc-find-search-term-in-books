@@ -188,7 +188,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
                 addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
-            } else if (textOfLineJ.endsWith("-")) {
+            } else if (textOfLineJ.endsWith('-')) {
 
                 /** @type {string[]} */
                 const arrayOfTokensOfLineJ = textOfLineJ.split(/[^a-zA-Z'-]+/);
@@ -201,6 +201,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
                 if (j === numberOfLines - 1) {
 
+                    /** @type {string} */
                     const searchTermWithOptionalSyllables = createSearchTermWithOptionalSyllables(searchTerm);
 
                     /** @type {RegExp} */
