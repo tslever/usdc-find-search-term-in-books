@@ -32,8 +32,9 @@
  * @property {number} Page - Number of the page with the line indicated by
  * number Line
  * @property {number} Line - Number of a line with text containing the word
- * searchTerm or the beginning of the word searchTerm. A word may be split by
- * a hypen across two lines.
+ * searchTerm or the beginning of the word searchTerm. If a word is split by a
+ * hyphen across two lines, a search result for the former line will be
+ * provided.
  */
 
 /**
@@ -67,27 +68,57 @@ function addSearchResultToArrayOfSearchResults(isbn, page, line, arrayOfSearchRe
  * Creates array of indices of character in string
  * @param {string} character - character whose indices are stored in an array
  * @param {string} theString - string that is scanned for indices of a character
- * @returns {number[]} arrayOfIndicesOfCharacterInString - array of indices of character in string
+ * @returns {number[]} arrayOfIndicesOfSubstringInString - array of indices of character in string
  */
-function createArrayOfIndicesOfCharacterInString(character, theString) {
+function createArrayOfIndicesOfSubstringInString(substring, theString) {
 
     /** @type {number[]} */
-    const arrayOfIndicesOfCharacterInString = [];
+    const arrayOfIndicesOfSubstringInString = [];
 
     /** @type {number} */
-    let indexOfCharacterInString = theString.indexOf(character);
+    let indexOfSubstringInString = theString.indexOf(character);
     
-    while (indexOfCharacterInString !== -1) {
+    while (indexOfSubstringInString !== -1) {
 
-        arrayOfIndicesOfCharacterInString.push(indexOfCharacterInString);
+        arrayOfIndicesOfSubstringInString.push(indexOfSubstringInString);
 
-        indexOfCharacterInString = theString.indexOf("-", indexOfCharacterInString + 1);
+        indexOfSubstringInString = theString.indexOf(substring, indexOfSubstringInString + 1);
 
     }
 
-    return arrayOfIndicesOfCharacterInString;
+    return arrayOfIndicesOfSubstringInString;
 
 }
+
+function createArrayOfIndicesOfSubstringsMatchingRegularExpression(inputString, stringRepresentingRegularExpression) {
+    
+    const regularExpression = new RegExp(stringRepresentingRegularExpression);
+
+    const arrayOfIndicesOfSubstringsMatchingRegularExpression = [];
+
+    let stringAgainstWhichToMatchRegularExpression = inputString + "";
+  
+    while (regularExpression.test(stringAgainstWhichToMatchRegularExpression)) {
+
+        const arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText = regularExpression.exec(stringAgainstWhichToMatchRegularExpression);
+
+        const matchedText = arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText[0];
+
+        const numberOfCharactersInMatchedText = matchedText.length;
+
+        const indexOfStringAgainstWhichToMatchRegularExpressionInInputString = inputString.indexOf(stringAgainstWhichToMatchRegularExpression)
+
+        const indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression = arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText.index;
+
+        arrayOfIndicesOfSubstringsMatchingRegularExpression.push(indexOfStringAgainstWhichToMatchRegularExpressionInInputString + indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression);
+
+        stringAgainstWhichToMatchRegularExpression = stringAgainstWhichToMatchRegularExpression.substring(indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression + numberOfCharactersInMatchedText);
+
+    }
+  
+    return arrayOfIndicesOfSubstringsMatchingRegularExpression;
+
+  }
 
 
 /**
@@ -95,47 +126,45 @@ function createArrayOfIndicesOfCharacterInString(character, theString) {
  * @param {string} searchTerm - search term
  * @returns searchTermWithOptionalSyllables - search term with optional syllables
  */
-function createSearchTermWithOptionalSyllables(searchTerm) {
+function createSearchTermWithOptionalSyllabicPhrases(searchTerm) {
 
-    /** @type {number[]} */
-    const arrayOfIndicesOfHyphenInSearchTerm = createArrayOfIndicesOfCharacterInString('-', searchTerm);
-    
-    /** @type {string[]} */
-    const arrayDerivedFromSearchTerm = searchTerm.split("");
+    let searchTermWithOptionalSyllables = "";
 
-    for (let k = 0; k < arrayOfIndicesOfHyphenInSearchTerm.length; k++) {
+    let numberOfOpenParentheses = 0;
 
-        indexOfHyphenInSearchTerm = arrayOfIndicesOfHyphenInSearchTerm[k];
+    let k;
 
-        /** @type {string} */
-        const stringWithTwoCharactersBeginningAtIndexOfHyphenInSearchTerm = searchTerm.substring(indexOfHyphenInSearchTerm, indexOfHyphenInSearchTerm + 2);
+    for (k = 0; k < searchTerm.length - 1; k++) {
 
-        if (stringWithTwoCharactersBeginningAtIndexOfHyphenInSearchTerm === "-?") {
+        if (searchTerm[k] === '-' && searchTerm[k + 1] !== '?') {
 
-            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm + 2, 0, "(");
+            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + "-(";
 
-        } else {
+            numberOfOpenParentheses++;
 
-            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm + 1, 0, "(");
+        } else if (searchTerm[k] === '-' && searchTerm[k + 1] === '?') {
 
-        }
+            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + "-?(";
 
-        if (k < arrayOfIndicesOfHyphenInSearchTerm.length - 1) {
+            k = k + 1;
 
-            indexOfHyphenInSearchTerm = arrayOfIndicesOfHyphenInSearchTerm[k + 1];
-
-            arrayDerivedFromSearchTerm.splice(indexOfHyphenInSearchTerm, 0, ")?");
+            numberOfOpenParentheses++;
 
         } else {
 
-            arrayDerivedFromSearchTerm.splice(arrayDerivedFromSearchTerm.length, 0, ")?");
+            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + searchTerm[k];
 
         }
 
     }
 
-    /** @type {string} */
-    const searchTermWithOptionalSyllables = arrayDerivedFromSearchTerm.join("");
+    searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + searchTerm[k];
+
+    for (let l = 0; l < numberOfOpenParentheses; l++) {
+
+        searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + ")?";
+
+    }
 
     return searchTermWithOptionalSyllables;
 
@@ -210,7 +239,7 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                 if (j === numberOfLines - 1) {
 
                     /** @type {string} */
-                    const searchTermWithOptionalSyllables = createSearchTermWithOptionalSyllables(searchTerm);
+                    const searchTermWithOptionalSyllables = createSearchTermWithOptionalSyllabicPhrases(searchTerm);
 
                     /** @type {RegExp} */
                     const regularExpressionDerivedFromSearchTermWithOptionalSyllables = new RegExp(searchTermWithOptionalSyllables);
@@ -503,9 +532,9 @@ if (test2result.Results.length == 1) {
 /** @type {Result} */
 const test3result = findSearchTermInBooks("dark-?ness", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn) === JSON.stringify(test3result)) {
-    console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 3 - Word 'darkness' is found once on page 31, line 8 (and line 9) of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 3 - Word 'darkness' is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn);
     console.log("Received:", test3result);
 }
@@ -556,7 +585,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayO
 
 /* Test 8 */
 /** @type {Result} */
-const test8result = findSearchTermInBooks("Canadian's", twentyLeaguesIn);
+const test8result = findSearchTermInBooks("Ca-?na-?di-?ans", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn) === JSON.stringify(test8result)) {
     console.log("PASS: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
@@ -596,4 +625,11 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLe
     console.log("FAIL: Test 11 - Word 'The' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn);
     console.log("Received:", test11result);
+}
+
+/* Test 12 */
+/** @type {Result} */
+const test12result = createSearchTermWithOptionalSyllabicPhrases("mo-?ther-in-law");
+if (test12result === "mo-?(ther-(in-(law)?)?)?") {
+    console.log("PASS: Test 12 - createSearchTermWithOptionalSyllabicPhrases(\"mo-?ther-in-law\") returns \"mo-?(ther-(in-(law)?)?)?\"")
 }
