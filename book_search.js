@@ -373,6 +373,54 @@ const arrayOfExcerptFromBookWithNoContent = [
         "ISBN": "3219876543210"
     }
 ]
+
+/** Input object for test 13 */
+/** @type {ExcerptOfBook[]} */
+const arrayOfExcerptFromBookWithMoOnLastLine = [
+    {
+        "Title": "Mo-",
+        "ISBN": "0246813579024",
+        "Content": [
+            {
+                "Page": 0,
+                "Line": 1,
+                "Text": "The mother of a person's spouse is that person's mo-"
+            }
+        ] 
+    }
+];
+
+/** Input object for test 14 */
+/** @type {ExcerptOfBook[]} */
+const arrayOfExcerptFromBookWithMotherOnLastLine = [
+    {
+        "Title": "Mother-",
+        "ISBN": "0246813579024",
+        "Content": [
+            {
+                "Page": 0,
+                "Line": 1,
+                "Text": "The mother of a person's spouse is that person's mother-"
+            }
+        ] 
+    }
+];
+
+/** Input object for test 15 */
+/** @type {ExcerptOfBook[]} */
+const arrayOfExcerptFromBookWithMotherInOnLastLine = [
+    {
+        "Title": "Mother-In-",
+        "ISBN": "0246813579024",
+        "Content": [
+            {
+                "Page": 0,
+                "Line": 1,
+                "Text": "The mother of a person's spouse is that person's mother-in-"
+            }
+        ] 
+    }
+];
   
 /** Output object for tests 1 and 2 */
 /** @type {Result} */
@@ -449,7 +497,7 @@ const outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFrom
 /** Output object for test 8 */
 /** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn = {
-    "SearchTerm": "Canadian's",
+    "SearchTerm": "Ca-?na-?di-?an's",
     "Results": [
         {
             "ISBN": "9780000528531",
@@ -485,6 +533,19 @@ const outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn = {
         }
     ]
 };
+
+/** Output object for test 13 */
+/** @type {Result} */
+const outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine = {
+    "SearchTerm": "mo-?ther-in-law",
+    "Results": [
+        {
+            "ISBN": "0246813579024",
+            "Page": 0,
+            "Line": 1
+        }
+    ] 
+}
 
 /*
  _   _ _   _ ___ _____   _____ _____ ____ _____ ____  
@@ -585,7 +646,7 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayO
 
 /* Test 8 */
 /** @type {Result} */
-const test8result = findSearchTermInBooks("Ca-?na-?di-?ans", twentyLeaguesIn);
+const test8result = findSearchTermInBooks("Ca-?na-?di-?an's", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn) === JSON.stringify(test8result)) {
     console.log("PASS: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
@@ -632,4 +693,37 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLe
 const test12result = createSearchTermWithOptionalSyllabicPhrases("mo-?ther-in-law");
 if (test12result === "mo-?(ther-(in-(law)?)?)?") {
     console.log("PASS: Test 12 - createSearchTermWithOptionalSyllabicPhrases(\"mo-?ther-in-law\") returns \"mo-?(ther-(in-(law)?)?)?\"")
+}
+
+/* Test 13 */
+/** @type {Result} */
+const test13result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMoOnLastLine);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test13result)) {
+    console.log("PASS: Test 13 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mo-");
+} else {
+    console.log("FAIL: Test 13 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mo-");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("Received:", test13result);
+}
+
+/* Test 14 */
+/** @type {Result} */
+const test14result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMotherOnLastLine);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test14result)) {
+    console.log("PASS: Test 14 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-");
+} else {
+    console.log("FAIL: Test 14 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("Received:", test14result);
+}
+
+/* Test 15 */
+/** @type {Result} */
+const test15result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMotherInOnLastLine);
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test15result)) {
+    console.log("PASS: Test 15 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-In-");
+} else {
+    console.log("FAIL: Test 15 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-In-");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("Received:", test15result);
 }
