@@ -191,6 +191,8 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
 
                         addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
+                        console.log('WARNING: A search result has been added to an array of search results for a search term that begins with the last token of an excerpt.');
+
                     }
 
                 } else {
@@ -282,7 +284,7 @@ const arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine = [
 /** @type {ExcerptOfBook[]} */
 const arrayOfExcerptsFromBooksWithWordDarkHaired = [
     {
-        "Title": "Example Book",
+        "Title": "Book With Excerpt With First Line Ending With dark- and Second Line Beginning With haired",
         "ISBN": "0123456789123",
         "Content": [
             {
@@ -294,11 +296,6 @@ const arrayOfExcerptsFromBooksWithWordDarkHaired = [
                 "Page": 0,
                 "Line": 2,
                 "Text": "haired woman was beautiful; and however good the Canadian\'s"
-            },
-            {
-                "Page": 0,
-                "Line": 3,
-                "Text": "eyes were, I asked myself how he had managed to see, and"
             } 
         ] 
     }
@@ -313,7 +310,7 @@ const arrayOfZeroExcerptsFromBooks = []
 const arrayOfExcerptFromBookWithNoContent = [
     {
         "Title": "Book With No Content",
-        "ISBN": "3219876543210"
+        "ISBN": "0123456789123"
     }
 ]
 
@@ -321,8 +318,8 @@ const arrayOfExcerptFromBookWithNoContent = [
 /** @type {ExcerptOfBook[]} */
 const arrayOfExcerptFromBookWithMoOnLastLine = [
     {
-        "Title": "Mo-",
-        "ISBN": "0246813579024",
+        "Title": "Book With Excerpt With Mo- On Last Line",
+        "ISBN": "0123456789123",
         "Content": [
             {
                 "Page": 0,
@@ -337,8 +334,8 @@ const arrayOfExcerptFromBookWithMoOnLastLine = [
 /** @type {ExcerptOfBook[]} */
 const arrayOfExcerptFromBookWithMotherOnLastLine = [
     {
-        "Title": "Mother-",
-        "ISBN": "0246813579024",
+        "Title": "Book With Excerpt With Mother- On Last Line",
+        "ISBN": "0123456789123",
         "Content": [
             {
                 "Page": 0,
@@ -353,8 +350,8 @@ const arrayOfExcerptFromBookWithMotherOnLastLine = [
 /** @type {ExcerptOfBook[]} */
 const arrayOfExcerptFromBookWithMotherInOnLastLine = [
     {
-        "Title": "Mother-In-",
-        "ISBN": "0246813579024",
+        "Title": "Book With Excerpt With Mother-In- On Last Line",
+        "ISBN": "0123456789123",
         "Content": [
             {
                 "Page": 0,
@@ -479,11 +476,11 @@ const outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn = {
 
 /** Output object for tests 13, 14, and 15 */
 /** @type {Result} */
-const outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine = {
+const outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine = {
     "SearchTerm": "mo-?ther-in-law",
     "Results": [
         {
-            "ISBN": "0246813579024",
+            "ISBN": "0123456789123",
             "Page": 0,
             "Line": 1
         }
@@ -525,9 +522,9 @@ if (JSON.stringify(twentyLeaguesOut) === JSON.stringify(test1result)) {
 /** @type {Result} */
 const test2result = findSearchTermInBooks("the", twentyLeaguesIn); 
 if (test2result.Results.length == 1) {
-    console.log("PASS: Test 2 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 2 - Word \"the\" is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 2 - Word 'the' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 2 - Word \"the\" is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", twentyLeaguesOut.Results.length);
     console.log("Received:", test2result.Results.length);
 }
@@ -536,9 +533,9 @@ if (test2result.Results.length == 1) {
 /** @type {Result} */
 const test3result = findSearchTermInBooks("dark-?ness", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn) === JSON.stringify(test3result)) {
-    console.log("PASS: Test 3 - Word 'darkness' is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 3 - Word \"dark-?ness\" is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 3 - Word 'darkness' is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 3 - Word \"dark-?ness\" is found once on page 31, line 8 and line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwentyLeaguesIn);
     console.log("Received:", test3result);
 }
@@ -547,9 +544,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayTwe
 /** @type {Result} */
 const test4result = findSearchTermInBooks("dark-?ness", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test4result)) {
-    console.log("PASS: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("PASS: Test 4 - Beginning of \"dark-?ness\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
 } else {
-    console.log("FAIL: Test 4 - Beginning of 'darkness' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("FAIL: Test 4 - Beginning of \"dark-?ness\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
     console.log("Received:", test4result);
 }
@@ -558,9 +555,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarknessAndArrayWit
 /** @type {Result} */
 const test5result = findSearchTermInBooks("dark-haired", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn) === JSON.stringify(test5result)) {
-    console.log("PASS: Test 5 - Word 'dark-haired' is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 5 - Word \"dark-haired\" is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 5 - Word 'dark-haired' is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 5 - Word \"dark-haired\" is not found in excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayTwentyLeaguesIn);
     console.log("Received:", test5result);
 }
@@ -569,9 +566,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayT
 /** @type {Result} */
 const test6result = findSearchTermInBooks("dark-haired", arrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine) === JSON.stringify(test6result)) {
-    console.log("PASS: Test 6 - Beginning of 'dark-haired' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("PASS: Test 6 - Beginning of \"dark-haired\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
 } else {
-    console.log("FAIL: Test 6 - Beginning of 'dark-haired' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
+    console.log("FAIL: Test 6 - Beginning of \"dark-haired\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 1 line");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayWithExcerptFromTwentyThousandLeaguesUnderTheSeaWithOneLine);
     console.log("Received:", test6result);
 }
@@ -580,9 +577,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayW
 /** @type {Result} */
 const test7result = findSearchTermInBooks("dark-haired", arrayOfExcerptsFromBooksWithWordDarkHaired);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired) === JSON.stringify(test7result)) {
-    console.log("PASS: Test 7 - Word 'dark-haired' is found once on page 31, line 8 of excerpt of Example Book");
+    console.log("PASS: Test 7 - Word \"dark-haired\" is found once on page 31, line 8 of excerpt of Book With Excerpt With First Line Ending With dark- and Second Line Beginning With haired");
 } else {
-    console.log("FAIL: Test 7 - Word 'dark-haired' is found once on page 31, line 8 of excerpt of Example Book");
+    console.log("FAIL: Test 7 - Word \"dark-haired\" is found once on page 31, line 8 of excerpt of Book With Excerpt With First Line Ending With dark- and Second Line Beginning With haired");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayOfExcerptsFromBooksWithWordDarkHaired);
     console.log("Received:", test7result);
 }
@@ -591,9 +588,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermDarkHairedAndArrayO
 /** @type {Result} */
 const test8result = findSearchTermInBooks("Ca-?na-?di-?an's", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn) === JSON.stringify(test8result)) {
-    console.log("PASS: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 8 - Word \"Ca-?na-?di-?an\'s\" is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 8 - Word 'Canadian\'s' is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 8 - Word \"Ca-?na-?di-?an\'s\" is found once on page 31, line 9 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyLeaguesIn);
     console.log("Received:", test8result);
 }
@@ -602,9 +599,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermCanadiansAndTwentyL
 /** @type {Result} */
 const test9result = findSearchTermInBooks("the", arrayOfZeroExcerptsFromBooks);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks) === JSON.stringify(test9result)) {
-    console.log("PASS: Test 9 - Word 'the' is not found when there are no excerpts of books");
+    console.log("PASS: Test 9 - Word \"the\" is not found when there are no excerpts of books");
 } else {
-    console.log("FAIL: Test 9 - Word 'the' is not found when there are no excerpts of books");
+    console.log("FAIL: Test 9 - Word \"the\" is not found when there are no excerpts of books");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroExcerptsFromBooks);
     console.log("Received:", test9result);
 }
@@ -613,9 +610,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfZeroEx
 /** @type {Result} */
 const test10result = findSearchTermInBooks("the", arrayOfExcerptFromBookWithNoContent);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent) === JSON.stringify(test10result)) {
-    console.log("PASS: Test 10 - Word 'the' is not found in an excerpt of a book with no lines");
+    console.log("PASS: Test 10 - Word \"the\" is not found in an excerpt of a book with no lines");
 } else {
-    console.log("FAIL: Test 10 - Word 'the' is not found in an excerpt of a book with no lines");
+    console.log("FAIL: Test 10 - Word \"the\" is not found in an excerpt of a book with no lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerptOfBookWithNoContent);
     console.log("Received:", test10result);
 }
@@ -624,9 +621,9 @@ if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayOfExcerp
 /** @type {Result} */
 const test11result = findSearchTermInBooks("The", twentyLeaguesIn);
 if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn) === JSON.stringify(test11result)) {
-    console.log("PASS: Test 11 - Word 'The' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("PASS: Test 11 - Word \"The\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
 } else {
-    console.log("FAIL: Test 11 - Word 'The' is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
+    console.log("FAIL: Test 11 - Word \"The\" is found once on page 31, line 8 of excerpt of Twenty Thousand Leagues Under The Sea with 3 lines");
     console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn);
     console.log("Received:", test11result);
 }
@@ -641,32 +638,32 @@ if (test12result === "mo-?(ther-(in-(law)?)?)?") {
 /* Test 13 */
 /** @type {Result} */
 const test13result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMoOnLastLine);
-if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test13result)) {
-    console.log("PASS: Test 13 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mo-");
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test13result)) {
+    console.log("PASS: Test 13 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mo- On Last Line");
 } else {
-    console.log("FAIL: Test 13 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mo-");
-    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("FAIL: Test 13 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mo- On Last Line");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine);
     console.log("Received:", test13result);
 }
 
 /* Test 14 */
 /** @type {Result} */
 const test14result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMotherOnLastLine);
-if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test14result)) {
-    console.log("PASS: Test 14 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-");
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test14result)) {
+    console.log("PASS: Test 14 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mother- On Last Line");
 } else {
-    console.log("FAIL: Test 14 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-");
-    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("FAIL: Test 14 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mother- On Last Line");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine);
     console.log("Received:", test14result);
 }
 
 /* Test 15 */
 /** @type {Result} */
 const test15result = findSearchTermInBooks("mo-?ther-in-law", arrayOfExcerptFromBookWithMotherInOnLastLine);
-if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test15result)) {
-    console.log("PASS: Test 15 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-In-");
+if (JSON.stringify(outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine) === JSON.stringify(test15result)) {
+    console.log("PASS: Test 15 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mother-In- On Last Line");
 } else {
-    console.log("FAIL: Test 15 - Word 'mo-?ther-in-law' is found once on page 0, line 1 of excerpt of Mother-In-");
-    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine);
+    console.log("FAIL: Test 15 - Word \"mo-?ther-in-law\" is found once on page 0, line 1 of excerpt of Book With Excerpt With Mother-In- On Last Line");
+    console.log("Expected:", outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBookWithMoMotherOrMotherInOnLastLine);
     console.log("Received:", test15result);
 }
