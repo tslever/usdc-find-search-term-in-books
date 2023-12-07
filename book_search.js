@@ -65,63 +65,6 @@ function addSearchResultToArrayOfSearchResults(isbn, page, line, arrayOfSearchRe
 }
 
 /**
- * Creates array of indices of character in string
- * @param {string} character - character whose indices are stored in an array
- * @param {string} theString - string that is scanned for indices of a character
- * @returns {number[]} arrayOfIndicesOfSubstringInString - array of indices of character in string
- */
-function createArrayOfIndicesOfSubstringInString(substring, theString) {
-
-    /** @type {number[]} */
-    const arrayOfIndicesOfSubstringInString = [];
-
-    /** @type {number} */
-    let indexOfSubstringInString = theString.indexOf(character);
-    
-    while (indexOfSubstringInString !== -1) {
-
-        arrayOfIndicesOfSubstringInString.push(indexOfSubstringInString);
-
-        indexOfSubstringInString = theString.indexOf(substring, indexOfSubstringInString + 1);
-
-    }
-
-    return arrayOfIndicesOfSubstringInString;
-
-}
-
-function createArrayOfIndicesOfSubstringsMatchingRegularExpression(inputString, stringRepresentingRegularExpression) {
-    
-    const regularExpression = new RegExp(stringRepresentingRegularExpression);
-
-    const arrayOfIndicesOfSubstringsMatchingRegularExpression = [];
-
-    let stringAgainstWhichToMatchRegularExpression = inputString + "";
-  
-    while (regularExpression.test(stringAgainstWhichToMatchRegularExpression)) {
-
-        const arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText = regularExpression.exec(stringAgainstWhichToMatchRegularExpression);
-
-        const matchedText = arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText[0];
-
-        const numberOfCharactersInMatchedText = matchedText.length;
-
-        const indexOfStringAgainstWhichToMatchRegularExpressionInInputString = inputString.indexOf(stringAgainstWhichToMatchRegularExpression)
-
-        const indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression = arrayOfMatchedTextAndItemsForCapturingGroupsOfMatchedText.index;
-
-        arrayOfIndicesOfSubstringsMatchingRegularExpression.push(indexOfStringAgainstWhichToMatchRegularExpressionInInputString + indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression);
-
-        stringAgainstWhichToMatchRegularExpression = stringAgainstWhichToMatchRegularExpression.substring(indexOfStringMatchingRegularExpressionInStringAgainstWhichToMatchRegularExpression + numberOfCharactersInMatchedText);
-
-    }
-  
-    return arrayOfIndicesOfSubstringsMatchingRegularExpression;
-
-  }
-
-
-/**
  * Creates search term with optional syllables after the first syllable
  * @param {string} searchTerm - search term
  * @returns searchTermWithOptionalSyllabicPhrases - search term with optional syllables
