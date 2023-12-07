@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-12-07T03:27:11.494Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="tXGfqxzfDxpYyIlsFi7x" version="22.1.2" type="device">
+<mxfile host="Electron" modified="2023-12-07T09:21:45.389Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="wiGwMnPJ1COebqaBSDGb" version="22.1.2" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
     <mxGraphModel dx="1036" dy="606" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -87,8 +87,8 @@
             <mxPoint x="506.5" y="840" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="zohzB5hVQK151VsvQyGE-60" value="Derive regular expression derived from search term with optional syllables" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
-          <mxGeometry x="300.25" y="840" width="412.5" height="40" as="geometry" />
+        <mxCell id="zohzB5hVQK151VsvQyGE-60" value="Derive search term with optional syllabic phrases&lt;br&gt;Derive regular expression from this search term" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="366.63" y="840" width="279.75" height="40" as="geometry" />
         </mxCell>
         <mxCell id="zohzB5hVQK151VsvQyGE-62" value="" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="zohzB5hVQK151VsvQyGE-60" edge="1">
           <mxGeometry relative="1" as="geometry">
@@ -96,7 +96,7 @@
             <mxPoint x="506.5" y="920" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="zohzB5hVQK151VsvQyGE-63" value="regular expression derived from search term with optional syllables matches last token of line &lt;i&gt;j&lt;/i&gt;?" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+        <mxCell id="zohzB5hVQK151VsvQyGE-63" value="regular expression derived from search term with opt syllabic phrases matches last token of line &lt;i&gt;j&lt;/i&gt;?" style="rhombus;whiteSpace=wrap;html=1;shadow=0;fontFamily=Helvetica;fontSize=12;align=center;strokeWidth=1;spacing=6;spacingTop=-4;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="399" y="920" width="215" height="200" as="geometry" />
         </mxCell>
         <mxCell id="zohzB5hVQK151VsvQyGE-64" value="Yes" style="rounded=0;html=1;jettySize=auto;orthogonalLoop=1;fontSize=11;endArrow=block;endFill=0;endSize=8;strokeWidth=1;shadow=0;labelBackgroundColor=none;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1">
@@ -185,13 +185,13 @@
             <mxPoint x="1080" y="280" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="kRkLF2mON7I8111Khw5k-0" value="Basic Path 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="kRkLF2mON7I8111Khw5k-0" value="Basic Path 1" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="170" y="1080" width="80" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="kRkLF2mON7I8111Khw5k-1" value="Basic Path 2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="410" y="1120" width="80.5" height="30" as="geometry" />
+        <mxCell id="kRkLF2mON7I8111Khw5k-1" value="Basic Path 2" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
+          <mxGeometry x="410" y="1130" width="80.5" height="20" as="geometry" />
         </mxCell>
-        <mxCell id="kRkLF2mON7I8111Khw5k-2" value="Basic Path 3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+        <mxCell id="kRkLF2mON7I8111Khw5k-2" value="Basic Path 3" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="900" y="1080" width="80.5" height="30" as="geometry" />
         </mxCell>
       </root>

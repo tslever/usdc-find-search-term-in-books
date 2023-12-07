@@ -124,11 +124,11 @@ function createArrayOfIndicesOfSubstringsMatchingRegularExpression(inputString, 
 /**
  * Creates search term with optional syllables after the first syllable
  * @param {string} searchTerm - search term
- * @returns searchTermWithOptionalSyllables - search term with optional syllables
+ * @returns searchTermWithOptionalSyllabicPhrases - search term with optional syllables
  */
 function createSearchTermWithOptionalSyllabicPhrases(searchTerm) {
 
-    let searchTermWithOptionalSyllables = "";
+    let searchTermWithOptionalSyllabicPhrases = "";
 
     let numberOfOpenParentheses = 0;
 
@@ -138,13 +138,13 @@ function createSearchTermWithOptionalSyllabicPhrases(searchTerm) {
 
         if (searchTerm[k] === '-' && searchTerm[k + 1] !== '?') {
 
-            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + "-(";
+            searchTermWithOptionalSyllabicPhrases = searchTermWithOptionalSyllabicPhrases + "-(";
 
             numberOfOpenParentheses++;
 
         } else if (searchTerm[k] === '-' && searchTerm[k + 1] === '?') {
 
-            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + "-?(";
+            searchTermWithOptionalSyllabicPhrases = searchTermWithOptionalSyllabicPhrases + "-?(";
 
             k = k + 1;
 
@@ -152,21 +152,21 @@ function createSearchTermWithOptionalSyllabicPhrases(searchTerm) {
 
         } else {
 
-            searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + searchTerm[k];
+            searchTermWithOptionalSyllabicPhrases = searchTermWithOptionalSyllabicPhrases + searchTerm[k];
 
         }
 
     }
 
-    searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + searchTerm[k];
+    searchTermWithOptionalSyllabicPhrases = searchTermWithOptionalSyllabicPhrases + searchTerm[k];
 
     for (let l = 0; l < numberOfOpenParentheses; l++) {
 
-        searchTermWithOptionalSyllables = searchTermWithOptionalSyllables + ")?";
+        searchTermWithOptionalSyllabicPhrases = searchTermWithOptionalSyllabicPhrases + ")?";
 
     }
 
-    return searchTermWithOptionalSyllables;
+    return searchTermWithOptionalSyllabicPhrases;
 
 }
 
@@ -239,12 +239,12 @@ function findSearchTermInBooks(searchTerm, scannedTextObj) {
                 if (j === numberOfLines - 1) {
 
                     /** @type {string} */
-                    const searchTermWithOptionalSyllables = createSearchTermWithOptionalSyllabicPhrases(searchTerm);
+                    const searchTermWithOptionalSyllabicPhrases = createSearchTermWithOptionalSyllabicPhrases(searchTerm);
 
                     /** @type {RegExp} */
-                    const regularExpressionDerivedFromSearchTermWithOptionalSyllables = new RegExp(searchTermWithOptionalSyllables);
+                    const regularExpressionDerivedFromSearchTermWithOptionalSyllabicPhrases = new RegExp(searchTermWithOptionalSyllabicPhrases);
 
-                    if (regularExpressionDerivedFromSearchTermWithOptionalSyllables.test(lastTokenOfLineJ)) {
+                    if (regularExpressionDerivedFromSearchTermWithOptionalSyllabicPhrases.test(lastTokenOfLineJ)) {
 
                         addSearchResultToArrayOfSearchResults(isbn, lineJ.Page, lineJ.Line, arrayOfSearchResults)
 
@@ -534,7 +534,7 @@ const outputOfFindSearchTermInBooksForSearchTermTheAndArrayTwentyLeaguesIn = {
     ]
 };
 
-/** Output object for test 13 */
+/** Output object for tests 13, 14, and 15 */
 /** @type {Result} */
 const outputOfFindSearchTermInBooksForSearchTermMotherInLawAndArrayOfExcerptFromBooksWithMoMotherOrMotherInOnLastLine = {
     "SearchTerm": "mo-?ther-in-law",
